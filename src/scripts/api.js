@@ -1,6 +1,6 @@
 'use_strict';
 
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/testurl';
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/seanm';
 
 function getBookmarks(){
   return fetchRequest(`${BASE_URL}/bookmarks`);
