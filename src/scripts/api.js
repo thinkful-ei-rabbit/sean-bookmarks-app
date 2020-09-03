@@ -2,8 +2,8 @@
 
 const BASE_URL = 'https://thinkful-list-api.herokuapp.com/seanM';
 
-function getBookmarks() {
-  return fetchRequest(`${BASE_URL}/bookmarks`);
+function deleteBookmark(id) {
+  return fetchRequest(`${BASE_URL}/bookmarks/${id}`, {method:'DELETE'});
 };
 
 function createBookmark(newBookmark) {
@@ -30,8 +30,8 @@ function updateBookmark(id, newBookmarkData) {
     });
 };
 
-function deleteBookmark(id) {
-  return fetchRequest(`${BASE_URL}/bookmarks/${id}`, {method:'DELETE'});
+function getBookmarks() {
+  return fetchRequest(`${BASE_URL}/bookmarks`);
 };
 
 function fetchRequest(...args) {

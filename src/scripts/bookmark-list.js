@@ -6,7 +6,7 @@ import store from './store';
 
 import '../css/main.css';
 
-function generateMainPageLayout() {
+function generateMainPage() {
   return `
   <section class="container">
       <h1>my bookmarks</h1>
@@ -178,7 +178,7 @@ function generateBookmarkListString(bookmarkList) {
 
 function render() {
   renderError();
-  $('main').html(generateMainPageLayout);
+  $('main').html(generateMainPage);
   if (store.addNewBookmark) {
     $('.js-add-new-bookmark').html(generateBookmarkAddForm());
   } else {
@@ -221,7 +221,7 @@ function getItemIdFromElement(item) {
     .data('item-id');
 };
 
-function handleAddNewBookmarkClick() {
+function handleNewBookmarkClick() {
   $('main').on('click','.js-add-bookmark', event => {
     store.toggleAddNewBookmark();
     render();
@@ -319,7 +319,7 @@ $.fn.extend({
 
 const bindEventListeners = () => {
   handleCloseError();
-  handleAddNewBookmarkClick();
+  handleNewBookmarkClick();
   handleSubmitNewBookmark();
   handleClickToExpandBookmark();
   handleDeleteBookmark();

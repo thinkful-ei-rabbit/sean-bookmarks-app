@@ -182,14 +182,14 @@ textarea {
 }
 
 .js-bookmark-url-entry, .js-bookmark-title-entry {
+  font-family: "Comic Sans MS";
   width: 100%;
 }
 
 legend {
   font-family: "Comic Sans MS";
-  
   font-size: 1.8rem;
-  font-variant: small-caps;
+  
 }
 
 .expand-buttons {
