@@ -1,36 +1,51 @@
 'use_strict';
 
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/seanm';
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/seanM';
 
-function getBookmarks(){
+function getBookmarks() {
   return fetchRequest(`${BASE_URL}/bookmarks`);
 };
 
-function createBookmark(newBookmark){
-  return fetchRequest(`${BASE_URL}/bookmarks`, {method:'POST',headers:{'Content-Type': 'application/json'}, body: newBookmark});
+function createBookmark(newBookmark) {
+  return fetchRequest(`${BASE_URL}/bookmarks`,
+    {
+      method:'POST',
+      headers:
+      {
+        'Content-Type': 'application/json'
+      }, 
+      body: newBookmark
+    });
 };
 
-function updateBookmark(id, obj) {
-  let newBookmark = JSON.stringify(obj);
-  return fetchRequest(`${BASE_URL}/bookmarks/${id}`, {method:'PATCH',headers:{'Content-Type': 'application/json'}, body: newBookmark});
+function updateBookmark(id, newBookmarkData) {
+  return fetchRequest(`${BASE_URL}/bookmarks/${id}`,
+    {
+      method:'PATCH',
+      headers:
+    {
+      'Content-Type': 'application/json'
+    }, 
+      body: newBookmarkData
+    });
 };
 
-function deleteBookmark(id){
+function deleteBookmark(id) {
   return fetchRequest(`${BASE_URL}/bookmarks/${id}`, {method:'DELETE'});
 };
 
-function fetchRequest(...args){
+function fetchRequest(...args) {
   let error;
   return fetch(...args)
-    .then(res => {
-      if (!res.ok) {
-        error = { code: res.status };
-        if (!res.headers.get('content-type').includes('json')) {
-          error.message = res.statusText;
+    .then(results => {
+      if (!results.ok) {
+        error = { code: results.status };
+        if (!results.headers.get('content-type').includes('json')) {
+          error.message = results.statusText;
           return Promise.reject(error);
         }
       }
-      return res.json();
+      return results.json();
     })
     .then(data =>{
       if (error) {
@@ -39,7 +54,7 @@ function fetchRequest(...args){
       }
       return data;
     });
-}
+};
 
 export default {
   getBookmarks,

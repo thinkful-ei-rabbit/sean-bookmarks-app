@@ -1,62 +1,41 @@
+/* mainstuff */
+
 * {
   box-sizing: border-box;
 }
 
-.center{
-  font-family: "Comic Sans MS";
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-bottom: 1rem;
-  border-bottom: .05rem solid #e5e5e5;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  line-height: 3rem;
-}
-
 body {
-  width: 95%;
   margin: 0 auto;
-  flex: 1;
-
+  padding: 0 10px;
+  width: 100%;
 }
+
+.js-add-new-bookmark {
+  background-color: rgb(27, 112, 112);
+}
+
+
+.js-bookmark-item {
+  background-color: rgb(27, 112, 112);
+}
+
 
 main {
   margin: 0 auto;
 }
 
-.even-flex {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 h1 {
   font-family: "Comic Sans MS";
-  font-size: 6rem;
+  font-size: 3.5rem;
+  
   text-align: center;
+  margin: 0 auto .33em;
 }
 
 h2, h3 {
   font-family: "Comic Sans MS";
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin: 0;
-}
-
-button, input[type="text"], select {
-  font-family: "Comic Sans MS";
-  padding: 5px;
-  font-size: 21px;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-option {
-  font-size: 10px;
-}
-
-.hidden {
-  display: none;
 }
 
 .container {
@@ -81,18 +60,7 @@ option {
   padding: 0;
 }
 
-.top-half {
-  background-color: #c4c4c4;
-  flex: 1;
-  padding: 1rem;
-}
-
-.bottom-half {
-  background-color: #ffffff;
-  flex: 1;
-  padding: 1rem;
-}
-
+/*------ error -------*/
 .error-container {
   color: red;
   font-weight: bold;
@@ -106,49 +74,149 @@ option {
   margin-right: 0.5rem;
 }
 
-/*------ input changes -------*/
-
-.delete-visit{
-  font-family: cursive;
-  cursor: pointer;
-}
+/* flex */
 .left-side {
   flex: 1;
 }
 
 .right-side {
-  flex: 1
+  flex: 2;
+  text-align: end;
+}
+
+.flex-link {
+  flex: 1;
+  margin: auto;
+}
+
+.flex-desc {
+  flex: 3;
+  cursor: pointer;
+  margin: 0 20px;
+  font-size: large;
+  padding: 5px;
+}
+
+.flex-button {
+  padding: 20px;
 }
 
 .top-half {
-  background-color: #c4c4c4;
+  background-color: black;
+  color: white;
   flex: 1;
   padding: 1rem;
 }
 
 .bottom-half {
-  background-color: #ffffff;
+  background-color: rgb(27, 112, 112);
   flex: 1;
   padding: 1rem;
 }
 
+.even-flex {
+  display: flex;
+  justify-content: space-evenly;
+}
 
-/*------ input changes -------*/
+.flex-between, .flex-details {
+  background-color: rgb(27, 112, 112);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.flex-details {
+  margin: 20px 0 0 20px;
+}
+
+.flex-direction {
+  flex-direction: column;
+}
+
+/* inputs */
 input {
   border: none;
 }
 
-button.js-add-bookmark {
-  min-width: 190px;
+button, input[type="text"], select.js-filter-rating {
+  padding: 5px;
+  font-size: 1.5rem;
+  font-variant: small-caps;
 }
 
-/*------- star rating --------*/
+button.js-add-bookmark, select.js-filter-rating {
+  min-width: 45%;
+}
+
+select option {
+  font-size: 10px;
+}
+
+option {
+  font-size: 18px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  transform: translateY(4px);
+  box-shadow: 2px 2px 5px #c4c4c4;
+
+}
+
+textarea {
+  font-family: "Comic Sans MS";
+  height: 90px;
+  font-size: 1rem;
+  border: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  resize: none;
+}
+
+.textarea-newadd {
+  width: 100%;
+}
+
+.js-bookmark-url-entry, .js-bookmark-title-entry {
+  width: 100%;
+}
+
+legend {
+  font-family: "Comic Sans MS";
+  
+  font-size: 1.8rem;
+  font-variant: small-caps;
+}
+
+.expand-buttons {
+  margin-left: 25px;
+  min-width: 75px;
+}
+
+.padding {
+  padding: 25px;
+}
+
+.add-button {
+  max-width: 50%;
+  text-align: center;
+  margin-top: 10px;
+}
+fieldset {
+  max-width: 100%;
+}
+
+/* Stars */
 .rating {
   display: inline-block;
   position: relative;
-  height: 40px;
-  line-height: 40px;
-  font-size: 40px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px;
 }
 
 .rating label {
@@ -193,6 +261,7 @@ button.js-add-bookmark {
 .rating label .icon {
   float: left;
   color: transparent;
+  padding-top: 10px;
 }
 
 .rating label:last-child .icon {
@@ -201,9 +270,50 @@ button.js-add-bookmark {
 
 .rating:not(:hover) label input:checked ~ .icon,
 .rating:hover label:hover input ~ .icon {
-  color: #D4AF37;
+  color: #c013cf;
 }
 
 .rating label input:focus:not(:checked) ~ .icon:last-child {
   color: #c4c4c4;
 }
+
+.background-stars {
+  color: #c4c4c4;
+  position: absolute;
+  z-index: 1;
+}
+
+.colored-stars {
+  color: #c013cf;
+  position: absolute;
+  z-index: 2;
+}
+
+.star-size {
+  font-size: 30px;
+  margin-top: 10px
+}
+
+@media all and (min-width: 800px) {
+  body {
+    max-width: 800px;
+  }
+
+  button.js-add-bookmark, select.js-filter-rating {
+    width: 225px;
+    min-width: 0px;
+  }
+
+  .flex-direction {
+    flex-direction: row;
+  }
+
+  .flex-desktop {
+    width: 50%;
+  }
+
+  .flex-desc {
+    flex: 4;
+  }
+}
+ 

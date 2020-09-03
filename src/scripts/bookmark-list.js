@@ -4,232 +4,234 @@ import $ from 'jquery';
 import api from './api';
 import store from './store';
 
-function generateBookmarkAddForm(){
+import '../css/main.css';
+
+function generateMainPageLayout() {
   return `
-    <form id="add-bookmark-form" class="add-bookmark-form">
-      <div class="even-flex">
-        <fieldset>
+  <section class="container">
+      <h1>my bookmarks</h1>
+      <div class="error-container "></div>
+      <div class="even-flex js-add-bookmark-button ">
+        <button class='js-add-bookmark '></button>
+        <select class='js-filter-rating '>
+          <option value="0">Sort by stars</option>
+          <option value="1">1 or more</option>
+          <option value="2">2 or more</option>
+          <option value="3">3 or more</option>
+          <option value="4">4 or more</option>
+          <option value="5">5 stars</option>
+        </select>
+      </div>
+      <div id="js-add-new-bookmark" class="js-add-new-bookmark">
+      </div>
+    </section>
+    <section class="container">
+      <ul id="js-bookmark-list" class="bookmark-list">
+      </ul>
+    </section>
+  `;
+};
+
+function generateBookmarkAddForm() {
+  return `
+    <form id="js-add-new-bookmark-form" class="js-add-new-bookmark-form">
+      <div class="even-flex flex-direction">
+        <fieldset class="flex-desktop">
           <legend>title</legend>
           <input type="text" name="title" class="js-bookmark-title-entry" placeholder="Enter Bookmark Name" required />
         </fieldset>
-        <fieldset>
+        <fieldset class="flex-desktop">
           <legend>url</legend>
-          <input type="text" name="url" class="js-bookmark-url-entry" placeholder="Enter URL" required />
+          <input type="text" name="url" class="js-bookmark-url-entry" value="https://" placeholder="Enter URL" required />
         </fieldset>
       </div>
-      <div class="even-flex">
+      <div>
         <fieldset>
           <legend>description</legend>
-          <textarea name="desc" class="bookmark-description" cols="100" rows="5" placeholder="Say something about the site" required></textarea>
+          <textarea name="desc" class="js-bookmark-desc-entry textarea-newadd" maxlength="255" placeholder="Say something about the site" required></textarea>
         </fieldset>
       </div>
-      <div class="rating even-flex">
-        <label>
-          <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" required/>
-          <span class="icon">*</span>
-        </label>
-        <label>
-          <input type="radio" name="rating" class="js-bookmark-rating-entry" value="2" />
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-        </label>
-        <label>
-          <input type="radio" name="rating" class="js-bookmark-rating-entry" value="3" />
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>   
-        </label>
-        <label>
-          <input type="radio" name="rating" class="js-bookmark-rating-entry" value="4" />
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-        </label>
-        <label>
-          <input type="radio" name="rating" class="js-bookmark-rating-entry" value="5" />
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-          <span class="icon">*</span>
-        </label>
+      <div class="flex-between">
+        <div class="rating left-side star-size">
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" required/>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="2" />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="3" />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>   
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="4" />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="5" />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+        </div>
+        <button class="right-side add-button" type="submit">add bookmark</button>
       </div>
-      <button type="submit">add</button>
     </form>
   `;
 };
 
-function generateBookmarkElement(bookmark){
-  if (bookmark.rating >= store.rating) {
-    if (!bookmark.expand) {
-      return `
-        <li class="js-bookmark-item" data-item-id="${bookmark.id}">
-          <div class="top-half" tabindex=0>
-            <h2>${bookmark.title}</h2>
-          </div>
-          <div class="bottom-half">
-            <div class="rating even-flex">
-              <label>
-                <input type="radio" name="rating-${bookmark.id}" class="js-bookmark-rating-entry" value="1" ${bookmark.rating === 1 ? 'checked' : '' } required/>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating-${bookmark.id}" class="js-bookmark-rating-entry" value="2" ${bookmark.rating === 2 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating-${bookmark.id}" class="js-bookmark-rating-entry" value="3" ${bookmark.rating === 3 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>   
-              </label>
-              <label>
-                <input type="radio" name="rating-${bookmark.id}" class="js-bookmark-rating-entry" value="4" ${bookmark.rating === 4 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating-${bookmark.id}" class="js-bookmark-rating-entry" value="5" ${bookmark.rating === 5 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-            </div>
-          </div>
-        </li>
-      `;
-    } else {
-      return `
-        <li class="js-bookmark-item" data-item-id="${bookmark.id}">
-          <div class="top-half" tabindex=0>
-            <h2>${bookmark.title}</h2>
-          </div>
-          <div>
-            <form class="js-edit-desc">
-              <textarea name="desc" class="bookmark-description" cols="100" rows="5" required>${bookmark.desc}</textarea>
-            </form>
-          </div>
-          <div class="bottom-half appart-flex">
-            <div class="rating left-side">
-              <label>
-                <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" ${bookmark.rating === 1 ? 'checked' : '' } required/>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating" class="js-bookmark-rating-entry" value="2" ${bookmark.rating === 2 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating" class="js-bookmark-rating-entry" value="3" ${bookmark.rating === 3 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>   
-              </label>
-              <label>
-                <input type="radio" name="rating" class="js-bookmark-rating-entry" value="4" ${bookmark.rating === 4 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-              <label>
-                <input type="radio" name="rating" class="js-bookmark-rating-entry" value="5" ${bookmark.rating === 5 ? 'checked' : '' } />
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-                <span class="icon">*</span>
-              </label>
-            </div>
-            <div class="even-flex right-side">
-              <a class="button delete-visit js-bookmark-delete">Delete Site</a> 
-              <a class="btn delete-visit" target="_blank" href="${bookmark.url}">Go to Site</a>
-            </div>
-          </div>
-        </li>
-      `;
-    }
-  } else {
-    return '';
+function generateBookmarkElement(bookmark, stars) {
+  return `
+    <li class="js-bookmark-item " data-item-id="${bookmark.id}">
+      <div class="top-half" tabindex=0>
+        <h2>${bookmark.title}</h2>
+      </div>
+      <div class="bottom-half">
+        <div class="rating even-flex">
+        <span class="icon background-stars">✵✵✵✵✵</span>
+        ${stars}
+        </div>
+      </div>
+    </li>
+  `;
+};
+
+function generateExpandedBookmarkElement(bookmark) {
+  return `
+    <li class="js-bookmark-item" data-item-id="${bookmark.id}">
+      <div class="top-half" tabindex=0>
+        <h2>${bookmark.title}</h1>
+      </div>
+      <div class="flex-details">
+        <div class="flex-link">
+          <button class="flex-button" onclick=" window.open('${bookmark.url}','_blank')">visit</button>
+        </div>
+          <textarea name="desc" class="js-bookmark-desc-entry flex-desc" maxlength="255" required>${bookmark.desc}</textarea>
+      </div>
+      <div class="bottom-half flex-between">
+        <div class="rating left-side">
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" ${bookmark.rating == 1 ? 'checked' : '' } required/>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="2" ${bookmark.rating == 2 ? 'checked' : '' } />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="3" ${bookmark.rating == 3 ? 'checked' : '' } />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>   
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="4" ${bookmark.rating == 4 ? 'checked' : '' } />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+          <label>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="5" ${bookmark.rating == 5 ? 'checked' : '' } />
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+            <span class="icon">✵</span>
+          </label>
+        </div>
+        <div class="right-side">
+          <button class="js-bookmark-save expand-buttons ">save</button>
+          <button class="js-bookmark-delete expand-buttons ">delete</button>
+        </div>
+      </div>
+    </li>
+  `;
+};
+
+function generateStarRating(number) {
+  let stars = '';
+  for(let i = 0; i < number; i++) {
+    stars += '✵'; 
   }
-}
+  return `<span class="icon colored-stars">${stars}</span>`;
+};
 
-/*
-154 was <i class="fas fa-dumpster-fire js-bookmark-delete"></i> 
-155 was <i class="far fa-check-square js-bookmark-accept-change"></i> 
-*/
-
-function generateAddBookmarkButton(){
-  if(!store.addNewBookmark) {
-    return 'add bookmark';
-  } else {
-    return 'cancel';
-  }
-}
-
-function generateBookmarkListString(bookmarkList){
-  const bookmarks = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
+function generateBookmarkListString(bookmarkList) {
+  const bookmarks = bookmarkList
+    .filter((bookmark) => {
+      return bookmark.rating >= store.rating;
+    }).map((bookmark) => (!bookmark.expand) ? generateBookmarkElement(bookmark, generateStarRating(bookmark.rating)) : generateExpandedBookmarkElement(bookmark));
   return bookmarks.join('');
-}
+};
 
-function render(){
+function render() {
   renderError();
+  $('main').html(generateMainPageLayout);
   if (store.addNewBookmark) {
-    $('.add-bookmark').html(generateBookmarkAddForm());
+    $('.js-add-new-bookmark').html(generateBookmarkAddForm());
   } else {
-    $('.add-bookmark').empty();
+    $('.js-add-new-bookmark').empty();
   }
   let bookmarks = [...store.bookmarks];
-  // render the shopping list in the DOM
   const bookmarkListString = generateBookmarkListString(bookmarks);
-  // insert that HTML into the DOM
-  $('.js-add-bookmark').html(generateAddBookmarkButton());
+  $('.js-add-bookmark').html(!store.addNewBookmark ? 'add bookmark' : 'cancel');
   $('#js-bookmark-list').html(bookmarkListString);
-}
+};
 
-function generateError(message){
+function generateError(message) {
   return `
       <section class="error-content">
         <button id="cancel-error">X</button>
         <p>${message}</p>
       </section>
     `;
-}
+};
 
-function renderError(){
+function renderError() {
   if (store.error) {
     const el = generateError(store.error);
     $('.error-container').html(el);
   } else {
     $('.error-container').empty();
   }
-}
+};
 
-function handleCloseError(){
+function handleCloseError() {
   $('.error-container').on('click', '#cancel-error', () => {
     store.setError(null);
     renderError();
   });
-}
+};
 
-function handleAddNewBookmarkClick(){
-  $('.js-add-bookmark').click(() => {
+function getItemIdFromElement(item) {
+  return $(item)
+    .closest('.js-bookmark-item')
+    .data('item-id');
+};
+
+function handleAddNewBookmarkClick() {
+  $('main').on('click','.js-add-bookmark', event => {
     store.toggleAddNewBookmark();
     render();
   });
-}
+};
 
-function handleSubmitNewBookmark(){
-  $('.add-bookmark').on('submit', '.add-bookmark-form', e => {
-    e.preventDefault();
-    let newBookmarkData = $(e.target).serializeJson();
+function handleSubmitNewBookmark() {
+  $('main').on('submit', '.js-add-new-bookmark-form', event => {
+    event.preventDefault();
+    const newBookmarkData = $(event.target).serializeJson();
     api.createBookmark(newBookmarkData)
       .then((newBookmark) => {
         store.addBookmark(newBookmark);
@@ -241,29 +243,36 @@ function handleSubmitNewBookmark(){
         renderError();
       });
   });
-}
+};
 
-function getItemIdFromElement(item){
-  return $(item)
-    .closest('.js-bookmark-item')
-    .data('item-id');
-}
-
-function handleClickToExpandBookmark(){
-  $('#js-bookmark-list').on('click', '.top-half', e => {
-    const id = getItemIdFromElement(e.currentTarget);
-    const bookmark = store.findById(id);
-    store.findAndUpdate(id, {expand: !bookmark.expand});
+function handleClickToExpandBookmark() {
+  $('main').on('click', '.top-half', event => {
+    const bookmarkId = getItemIdFromElement(event.currentTarget);
+    const bookmark = store.findById(bookmarkId);
+    store.findAndUpdate(bookmarkId, {expand: !bookmark.expand});
     render();
+    store.bookmarks.forEach(bookmark => bookmark.expand = false);
   });
-}
+};
 
-function handleDeleteBookmark(){
-  $('#js-bookmark-list').on('click', '.js-bookmark-delete', e => {
-    const id = getItemIdFromElement(e.currentTarget);
-    api.deleteBookmark(id)
+function handleKeyPressToExpandBookmark() {
+  $('main').on('keydown', '.top-half', event => {
+    if (event.key === 'Enter') {
+      const bookmarkId = getItemIdFromElement(event.currentTarget);
+      const bookmark = store.findById(bookmarkId);
+      store.findAndUpdate(bookmarkId, {expand: !bookmark.expand});
+      render();
+      store.bookmarks.forEach(bookmark => bookmark.expand = false);
+    }
+  });
+};
+
+function handleDeleteBookmark() {
+  $('main').on('click', '.js-bookmark-delete', event => {
+    const bookmarkId = getItemIdFromElement(event.currentTarget);
+    api.deleteBookmark(bookmarkId)
       .then(() => {
-        store.findAndDelete(id);
+        store.findAndDelete(bookmarkId);
         render();
       })
       .catch((error) => {
@@ -273,11 +282,29 @@ function handleDeleteBookmark(){
   });
 };
 
-function handleRatingFilterChange(){
-  $('.js-filter-rating').change((e) => {
-    let val = $(e.target).val();
-    store.rating = val;
+function handleRatingFilterChange() {
+  $('main').on('change', '.js-filter-rating', event => {
+    store.rating = $(event.target).val();
     render();
+  });
+};
+
+function handleBookmarkSaveClick() {
+  $('main').on('click', '.js-bookmark-save', event => {
+    const bookmarkId = getItemIdFromElement(event.currentTarget);
+    const newDesc = $('.js-bookmark-desc-entry').val();
+    const newRating = $('input[name="rating"]:checked').val();
+    const newData = JSON.stringify({desc: newDesc, rating: newRating});
+    const parsedNewData = JSON.parse(newData);
+    api.updateBookmark(bookmarkId, newData)
+      .then(() => {
+        store.findAndUpdate(bookmarkId, parsedNewData);
+        render();
+      })
+      .catch((error) => {
+        store.setError(error.message);
+        renderError();
+      });
   });
 };
 
@@ -297,11 +324,11 @@ const bindEventListeners = () => {
   handleClickToExpandBookmark();
   handleDeleteBookmark();
   handleRatingFilterChange();
+  handleBookmarkSaveClick();
+  handleKeyPressToExpandBookmark();
 };
 
 export default {
   bindEventListeners,
   render
 };
-
-// 116 was  <input type=button" value="&#10003;" />
