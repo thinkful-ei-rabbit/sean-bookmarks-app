@@ -98,7 +98,8 @@ h2, h3 {
 }
 
 .flex-button {
-  padding: 20px;
+  padding: 10px;
+  margin: 25px
 }
 
 .top-half {
@@ -278,7 +279,7 @@ fieldset {
 }
 
 .background-stars {
-  color: #c4c4c4;
+  color: #160213;
   position: absolute;
   z-index: 1;
 }

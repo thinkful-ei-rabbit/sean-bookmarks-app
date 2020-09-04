@@ -3,32 +3,32 @@
 import $ from 'jquery';
 import api from './api';
 import store from './store';
-
 import '../css/main.css';
 
 function generateMainPage() {
   return `
   <section class="container">
-      <h1>my bookmarks</h1>
-      <div class="error-container "></div>
-      <div class="even-flex js-add-bookmark-button ">
-        <button class='js-add-bookmark '></button>
-        <select class='js-filter-rating '>
-          <option value="0">Sort by stars</option>
-          <option value="1">1 or more</option>
-          <option value="2">2 or more</option>
-          <option value="3">3 or more</option>
-          <option value="4">4 or more</option>
-          <option value="5">5 stars</option>
-        </select>
+    <h1>my bookmarks</h1>
+    <div class="error-container "></div>
+    <div class="even-flex js-add-bookmark-button ">
+      <button class='js-add-bookmark '></button>
+        <label> rating filter
+          <select class='js-filter-rating aria-labelledby="rating">'>
+            <option value="0">Sort by stars</option>
+            <option value="1">1 or more</option>
+            <option value="2">2 or more</option>
+            <option value="3">3 or more</option>
+            <option value="4">4 or more</option>
+            <option value="5">5 stars</option>
+          </select>
+        </label>
       </div>
-      <div id="js-add-new-bookmark" class="js-add-new-bookmark">
-      </div>
-    </section>
-    <section class="container">
-      <ul id="js-bookmark-list" class="bookmark-list">
-      </ul>
-    </section>
+    <div id="js-add-new-bookmark" class="js-add-new-bookmark"></div>
+  </section>
+  <section class="container">
+    <ul id="js-bookmark-list" class="bookmark-list">
+    </ul>
+  </section>
   `;
 };
 
@@ -42,16 +42,14 @@ function generateBookmarkAddForm() {
         </fieldset>
         <fieldset class="flex-desktop">
           <legend>url</legend>
-          <input type="text" name="url" class="js-bookmark-url-entry" value="https://" placeholder="Enter URL" required />
+          <input type="text" name="url" class="js-bookmark-url-entry" placeholder="Enter URL" required />
         </fieldset>
       </div>
-      <div>
         <fieldset>
           <legend>description</legend>
           <textarea name="desc" class="js-bookmark-desc-entry textarea-newadd" maxlength="255" placeholder="Say something about the site" required></textarea>
         </fieldset>
-      </div>
-      <div class="flex-between">
+      <figure class="flex-between">
         <div class="rating left-side star-size">
           <label>
             <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" required/>
@@ -85,7 +83,7 @@ function generateBookmarkAddForm() {
           </label>
         </div>
         <button class="right-side add-button" type="submit">add bookmark</button>
-      </div>
+      </figure>
     </form>
   `;
 };
@@ -93,7 +91,7 @@ function generateBookmarkAddForm() {
 function generateBookmarkElement(bookmark, stars) {
   return `
     <li class="js-bookmark-item " data-item-id="${bookmark.id}">
-      <div class="top-half" tabindex=0>
+      <section class="top-half" tabindex=0>
         <h2>${bookmark.title}</h2>
       </div>
       <div class="bottom-half">
@@ -101,23 +99,20 @@ function generateBookmarkElement(bookmark, stars) {
         <span class="icon background-stars">✵✵✵✵✵</span>
         ${stars}
         </div>
-      </div>
+      </section>
     </li>
   `;
 };
 
 function generateExpandedBookmarkElement(bookmark) {
   return `
+
     <li class="js-bookmark-item" data-item-id="${bookmark.id}">
-      <div class="top-half" tabindex=0>
-        <h2>${bookmark.title}</h1>
-      </div>
-      <div class="flex-details">
-        <div class="flex-link">
+      <section class="top-half flex-details" tabindex=0>
+      <h2>${bookmark.title}</h2>
           <button class="flex-button" onclick=" window.open('${bookmark.url}','_blank')">visit</button>
-        </div>
           <textarea name="desc" class="js-bookmark-desc-entry flex-desc" maxlength="255" required>${bookmark.desc}</textarea>
-      </div>
+      </section>
       <div class="bottom-half flex-between">
         <div class="rating left-side">
           <label>
