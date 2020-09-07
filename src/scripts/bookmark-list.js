@@ -38,7 +38,7 @@ function generateBookmarkAddForm() {
       <div class="even-flex flex-direction">
         <fieldset class="flex-desktop">
           <legend>title</legend>
-          <input type="text" name="title" class="js-bookmark-title-entry" placeholder="Enter Bookmark Name" required />
+          <input type="text" name="title" class="js-bookmark-title-entry" placeholder="Enter Bookmark Name" aria-label="Descrt" required />
         </fieldset>
         <fieldset class="flex-desktop">
           <legend>url</legend>
@@ -106,17 +106,18 @@ function generateBookmarkElement(bookmark, stars) {
 
 function generateExpandedBookmarkElement(bookmark) {
   return `
-
     <li class="js-bookmark-item" data-item-id="${bookmark.id}">
-      <section class="top-half flex-details" tabindex=0>
-      <h2>${bookmark.title}</h2>
-          <button class="flex-button" onclick=" window.open('${bookmark.url}','_blank')">visit</button>
-          <textarea name="desc" class="js-bookmark-desc-entry flex-desc" maxlength="255" required>${bookmark.desc}</textarea>
-      </section>
+      <div class="top-half" tabindex=0>
+        <h2>${bookmark.title}</h1>
+      </div>
+      <div class="flex-details">
+      <button class=" flex-button" onclick=" window.open('${bookmark.url}','_blank')">visit</button>
+          <textarea name="desc" aria-label="Description" class="js-bookmark-desc-entry flex-desc" maxlength="255" required>${bookmark.desc}</textarea>
+      </div>
       <div class="bottom-half flex-between">
         <div class="rating left-side">
           <label>
-            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" ${bookmark.rating == 1 ? 'checked' : '' } required/>
+            <input type="radio" name="rating" class="js-bookmark-rating-entry" value="1" ${bookmark.rating == 1 ? 'checked' : '' } required />
             <span class="icon">✵</span>
           </label>
           <label>
@@ -147,13 +148,14 @@ function generateExpandedBookmarkElement(bookmark) {
           </label>
         </div>
         <div class="right-side">
-          <button class="js-bookmark-save expand-buttons ">save</button>
-          <button class="js-bookmark-delete expand-buttons ">delete</button>
+          <button class="js-bookmark-save expand-buttons shadow">save</button>
+          <button class="js-bookmark-delete expand-buttons shadow">delete</button>
         </div>
       </div>
     </li>
   `;
 };
+
 
 function generateStarRating(number) {
   let stars = '';
